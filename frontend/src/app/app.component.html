@@ -1,0 +1,32 @@
+<h1>Gerenciamento de Pedidos</h1>
+
+<div class="section">
+  <button (click)="criarPedido()">Criar Pedido</button>
+</div>
+
+<div class="section">
+  <h2>Pedidos Abertos</h2>
+  <p *ngIf="trocoMsg">{{trocoMsg}}</p>
+  <div *ngFor="let pedido of pedidos">
+    <h3>Pedido {{ pedido.id }}</h3>
+    <p>Valor do Pedido: R$ {{ pedido.valorTotal }}</p>
+    <button (click)="calcularValorPedido(pedido.id)">Calcular Valor</button>
+    <button (click)="fecharPedido(pedido.id)">Fechar Pedido</button><br/>
+    <div *ngIf="pedido.itens.length > 0" >
+      <div *ngFor="let produto of pedido.itens">
+        <input type="text" [(ngModel)]="produto.nome">
+        <input type="number" [(ngModel)]="produto.quantidade">
+      </div>
+    </div>
+    <select [(ngModel)]="produtoSelecionado">
+      <option *ngFor="let produto of produtos" [value]="produto.id">{{ produto.nome }}</option>
+    </select>
+    <input type="number" [(ngModel)]="quantidade" placeholder="Quantidade">
+    <button (click)="adicionarProduto(pedido.id)">Adicionar Produto</button>
+    <div *ngIf="pedido.id === pedidoSelecionado">
+      <input type="number" [(ngModel)]="valorPagamento" placeholder="Valor do Pagamento">
+      <button (click)="realizarPagamento(pedido.id)">Pagar</button>
+      <p *ngIf="msgErro"> {{msgErro}}</p>
+    </div>
+  </div>
+</div>
